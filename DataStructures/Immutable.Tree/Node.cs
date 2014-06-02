@@ -9,12 +9,11 @@ namespace DataStructures.Immutable.Tree
         private TKey id;
         private TKey parentId;
 
-        protected Node(ReadOnlyCollection<Node<TKey, TItem>> children, TItem value, TKey id, TKey parentId, bool isConnected)
+        protected Node(ReadOnlyCollection<Node<TKey, TItem>> children, TItem value, TKey id, TKey parentId)
         {
             this.Value = value;
             this.id = id;
             this.parentId = parentId;
-            this.IsConnected = isConnected;
         }
 
         /// <summary>
@@ -43,8 +42,6 @@ namespace DataStructures.Immutable.Tree
         /// Gets the value held by the current node.
         /// </summary>
         public TItem Value { get; private set; }
-
-        public bool IsConnected { get; private set; }
 
         /// <summary>
         /// Gets all descendant leaves, or this object itself if it is a leaf.
