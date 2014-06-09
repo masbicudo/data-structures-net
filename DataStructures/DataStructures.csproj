@@ -39,20 +39,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Immutable.Tree\Branch.cs" />
-    <Compile Include="Immutable.Tree\Node.cs" />
-    <Compile Include="Immutable.Tree\Forest.cs" />
-    <Compile Include="Immutable.Tree\IBranch.cs" />
-    <Compile Include="Immutable.Tree\ILeaf.cs" />
-    <Compile Include="Immutable.Tree\INode.cs" />
-    <Compile Include="Immutable.Tree\IRoot.cs" />
-    <Compile Include="Immutable.Tree\IVisitableNode.cs" />
-    <Compile Include="Immutable.Tree\Leaf.cs" />
-    <Compile Include="Immutable.Tree\Root.cs" />
-    <Compile Include="Immutable.Tree\RootLeaf.cs" />
-    <Compile Include="Immutable.Tree\Tree.cs" />
-    <Compile Include="Immutable.Tree\Visitor.cs" />
-    <Compile Include="Immutable.Tree\VisitResult.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
+    <Compile Include="IImmutable.cs" />
+    <Compile Include="IImmutablePrototype.cs" />
+    <Compile Include="Immutable\IImmutableTreeBuilder.cs" />
+    <Compile Include="Immutable\ImmutableCollection.cs" />
+    <Compile Include="Immutable\Tree\Branch.cs" />
+    <Compile Include="Immutable\Tree\Node.cs" />
+    <Compile Include="Immutable\ImmutableForest.cs" />
+    <Compile Include="Immutable\Tree\IBranch.cs" />
+    <Compile Include="Immutable\Tree\ILeaf.cs" />
+    <Compile Include="Immutable\Tree\INode.cs" />
+    <Compile Include="Immutable\Tree\IRoot.cs" />
+    <Compile Include="Immutable\Tree\IVisitableNode.cs" />
+    <Compile Include="Immutable\Tree\Leaf.cs" />
+    <Compile Include="Immutable\Tree\Root.cs" />
+    <Compile Include="Immutable\Tree\RootBranch.cs" />
+    <Compile Include="Immutable\Tree\RootLeaf.cs" />
+    <Compile Include="Immutable\ImmutableTree.cs" />
+    <Compile Include="Immutable\Tree\Visitor.cs" />
+    <Compile Include="Immutable\Tree\VisitResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

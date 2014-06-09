@@ -4,7 +4,7 @@ namespace DataStructures.Immutable.Tree
     /// Represents a branch of a tree.
     /// A leaf cannot be a leaf.
     /// </summary>
-    public interface IBranch
+    public interface IBranch : IImmutable
     {
     }
 }

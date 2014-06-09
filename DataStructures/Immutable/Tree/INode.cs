@@ -5,8 +5,8 @@ namespace DataStructures.Immutable.Tree
     /// <summary>
     /// Represents a node of a tree structure.
     /// </summary>
-    /// <typeparam name="TItem">Type of value contained in each tree node.</typeparam>
-    public interface INode<out TItem>
+    /// <typeparam name="TValue">Type of value contained in each tree node.</typeparam>
+    public interface INode<out TValue> : IImmutable
     {
         /// <summary>
         /// Gets a value indicating whether the node is the root of a tree.
@@ -33,13 +33,13 @@ namespace DataStructures.Immutable.Tree
         /// <summary>
         /// Gets the value held by the current node.
         /// </summary>
-        TItem Value { get; }
+        TValue Value { get; }
 
         /// <summary>
         /// Gets the set of child nodes of the current node.
         /// </summary>
-        IReadOnlyCollection<INode<TItem>> Children { get; }
+        IReadOnlyCollection<INode<TValue>> Children { get; }
 
-        IEnumerable<INode<TItem>> AllLeaves { get; }
+        IEnumerable<INode<TValue>> AllLeaves { get; }
     }
 }

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures.csproj", "{E8757858-B17B-43D4-AA13-412E552386DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Tests", "DataStructures.Tests\DataStructures.Tests.csproj", "{47435869-E718-4334-894A-91DAB677B1F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{E8757858-B17B-43D4-AA13-412E552386DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8757858-B17B-43D4-AA13-412E552386DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8757858-B17B-43D4-AA13-412E552386DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47435869-E718-4334-894A-91DAB677B1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47435869-E718-4334-894A-91DAB677B1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47435869-E718-4334-894A-91DAB677B1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47435869-E718-4334-894A-91DAB677B1F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

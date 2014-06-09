@@ -4,7 +4,7 @@ namespace DataStructures.Immutable.Tree
     /// Represents the root of a tree.
     /// A root can be either a branch or a leaf.
     /// </summary>
-    public interface IRoot
+    public interface IRoot : IImmutable
     {
     }
 }

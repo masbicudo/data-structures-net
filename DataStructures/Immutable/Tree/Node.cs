@@ -1,19 +1,51 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DataStructures.Immutable.Tree
 {
-    public abstract class Node<TKey, TItem> : IVisitableNode<TItem>
+    /// <summary>
+    /// Represents a node of an immutable tree.
+    /// </summary>
+    /// <typeparam name="TValue">Type of the value contained in the node.</typeparam>
+    public abstract class Node<TValue> : IVisitableNode<TValue>
     {
-        private TKey id;
-        private TKey parentId;
+        private static readonly ImmutableCollection<IVisitableNode<TValue>> EmptyCollection
+            = new ImmutableCollection<IVisitableNode<TValue>>(new Node<TValue>[0]);
 
-        protected Node(ReadOnlyCollection<Node<TKey, TItem>> children, TItem value, TKey id, TKey parentId)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Node{TValue}"/> class,
+        /// with the specified children and value.
+        /// </summary>
+        /// <param name="children">
+        /// The children.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        protected Node(ImmutableCollection<IVisitableNode<TValue>> children, TValue value)
         {
+            this.Children = children == null || children.Count == 0 ? EmptyCollection : children;
             this.Value = value;
-            this.id = id;
-            this.parentId = parentId;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Node{TValue}"/> class,
+        /// with the specified children and value.
+        /// </summary>
+        /// <param name="children">
+        /// The children.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        protected Node(IEnumerable<IVisitableNode<TValue>> children, TValue value)
+        {
+            var childrenArray = children.ToArray();
+            this.Children = children == null || childrenArray.Length == 0
+                ? EmptyCollection
+                : new ImmutableCollection<IVisitableNode<TValue>>(childrenArray);
+
+            this.Value = value;
         }
 
         /// <summary>
@@ -41,12 +73,12 @@ namespace DataStructures.Immutable.Tree
         /// <summary>
         /// Gets the value held by the current node.
         /// </summary>
-        public TItem Value { get; private set; }
+        public TValue Value { get; private set; }
 
         /// <summary>
         /// Gets all descendant leaves, or this object itself if it is a leaf.
         /// </summary>
-        public IEnumerable<INode<TItem>> AllLeaves
+        public IEnumerable<INode<TValue>> AllLeaves
         {
             get { return this.Children.SelectMany(x => x.IsLeaf ? SingleItemSet(x) : x.AllLeaves); }
         }
@@ -54,12 +86,12 @@ namespace DataStructures.Immutable.Tree
         /// <summary>
         /// Gets the collection of child nodes.
         /// </summary>
-        public abstract IReadOnlyCollection<IVisitableNode<TItem>> Children { get; }
+        public ImmutableCollection<IVisitableNode<TValue>> Children { get; private set; }
 
         /// <summary>
         /// Gets the collection of child nodes.
         /// </summary>
-        IReadOnlyCollection<INode<TItem>> INode<TItem>.Children
+        IReadOnlyCollection<INode<TValue>> INode<TValue>.Children
         {
             get { return this.Children; }
         }
@@ -75,7 +107,7 @@ namespace DataStructures.Immutable.Tree
         /// even if the other tree if of a different type.
         /// </remarks>
         /// <returns>A VisitResult struct, containing the visited node (or a replacement), and the additional data produced by the visitor.</returns>
-        public IEnumerable<VisitResult<TItem, TData>> Visit<TData>(Visitor<TItem, TData> visitor)
+        public IEnumerable<VisitResult<TValue, TData>> Visit<TData>(Visitor<TValue, TData> visitor)
         {
             // Creating an enumerable object, that will visit each child object, upon enumeration.
             // The responsability of enumerating these is left to the `visitor` delegate,
@@ -97,7 +129,7 @@ namespace DataStructures.Immutable.Tree
         /// This is suitable for the modification of the current tree (which will result in a new immutable tree).
         /// </remarks>
         /// <returns>A VisitResult struct, containing the visited node (or a replacement).</returns>
-        public IEnumerable<VisitResult<TItem>> Visit(Visitor<TItem> visitor)
+        public IEnumerable<VisitResult<TValue>> Visit(Visitor<TValue> visitor)
         {
             // Creating an enumerable object, that will visit each child object, upon enumeration.
             // The responsability of enumerating these is left to the `visitor` delegate,
