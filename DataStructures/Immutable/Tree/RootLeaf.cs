@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace DataStructures.Immutable.Tree
@@ -33,6 +34,14 @@ namespace DataStructures.Immutable.Tree
         public override bool IsLeaf
         {
             get { return true; }
+        }
+
+        protected override INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value)
+        {
+            if (children.Count > 0)
+                throw new Exception("Cannot create a leaf with children.");
+
+            return new RootLeaf<TValue>(value);
         }
     }
 }

@@ -18,12 +18,12 @@ namespace DataStructures.Immutable
             this.valueGetter = valueGetter;
         }
 
-        public virtual IVisitableNode<TValue> BuildRoot(TData rootData)
+        public virtual INode<TValue> BuildRoot(TData rootData)
         {
             return this.innerBuilder.BuildRoot(rootData, this.childGetter, this.valueGetter);
         }
 
-        public virtual IVisitableNode<TValue> BuildBranchOrLeaf(TData nodeData)
+        public virtual INode<TValue> BuildBranchOrLeaf(TData nodeData)
         {
             return this.innerBuilder.BuildBranchOrLeaf(nodeData, this.childGetter, this.valueGetter);
         }

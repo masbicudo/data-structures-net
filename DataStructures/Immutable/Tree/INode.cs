@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DataStructures.Immutable.Tree
 {
@@ -39,59 +38,24 @@ namespace DataStructures.Immutable.Tree
         /// <summary>
         /// Gets the set of child nodes of the current node.
         /// </summary>
-        IReadOnlyCollection<INode<TValue>> Children { get; }
-    }
-
-    public static class NodeExtensions
-    {
-        /// <summary>
-        /// Gets an enumerable for all descendant leaves, or the current node itself when it is a leaf.
-        /// </summary>
-        /// <param name="node"> The node to enumerate itself (if its a leaf) or all descendant leaves. </param>
-        /// <typeparam name="TValue"> Type of the value contained in the node. </typeparam>
-        /// <returns> An `IEnumerable` that returns all leaf nodes. </returns>
-        public static IEnumerable<INode<TValue>> GetAllLeavesEnum<TValue>(this INode<TValue> node)
-        {
-            return node.IsLeaf ? SingleItemSet(node) : node.Children.SelectMany(x => x.GetAllLeavesEnum());
-        }
+        IReadOnlyList<INode<TValue>> Children { get; }
 
         /// <summary>
-        /// Gets an enumerable returning the current node,
-        /// and all of it's descendants in order of height in the tree.
-        /// This requires the creation of an intermediate queue,
-        /// with memory consumption of O(max-width).
+        /// Applies the visitor pattern to the current tree node.
         /// </summary>
-        /// <param name="node"> The node to enumerate itself and all descendant nodes. </param>
-        /// <typeparam name="TValue"> Type of the value contained in the node. </typeparam>
-        /// <returns> An `IEnumerable` that returns all the nodes, in height order. </returns>
-        public static IEnumerable<INode<TValue>> GetAllNodesByHeightEnum<TValue>(this INode<TValue> node)
-        {
-            var queue = new Queue<INode<TValue>>();
-            queue.Enqueue(node);
-            while (queue.Count > 0)
-            {
-                var item = queue.Dequeue();
-                yield return item;
-
-                foreach (var childItem in item.Children)
-                    queue.Enqueue(childItem);
-            }
-        }
-
-        /// <summary>
-        /// Gets an enumerable returning the current node, and all of it's descendants in recursive descent order.
-        /// </summary>
-        /// <param name="node"> The node to enumerate itself and all descendant nodes. </param>
-        /// <typeparam name="TValue"> Type of the value contained in the node. </typeparam>
-        /// <returns> An `IEnumerable` that returns all the nodes, in recursive descent order. </returns>
-        public static IEnumerable<INode<TValue>> GetAllNodesEnum<TValue>(this INode<TValue> node)
-        {
-            return SingleItemSet(node).Concat(node.Children.SelectMany(x => x.GetAllNodesEnum()));
-        }
-
-        private static IEnumerable<T> SingleItemSet<T>(T item)
-        {
-            yield return item;
-        }
+        /// <typeparam name="TResult">Type of the resulting tree node. Any type is allowed, even non INode&lt;T&gt; objects.</typeparam>
+        /// <param name="visitor">
+        /// Delegate that will be called when visiting a tree node, to change it,
+        /// and to add the already visited children.
+        /// </param>
+        /// <remarks>
+        /// This is suitable for the construction of new trees based on the current tree,
+        /// even if the other tree if of a different type.
+        /// </remarks>
+        /// <returns>
+        /// An object of TResult type, that corresponds to the visited node, 
+        /// that results from applying the `visitor` delegate to the current node.
+        /// </returns>
+        IEnumerable<TResult> Visit<TResult>(Visitor<TValue, TResult> visitor);
     }
 }

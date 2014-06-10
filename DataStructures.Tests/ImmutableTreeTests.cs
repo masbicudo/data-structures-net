@@ -57,6 +57,40 @@ namespace DataStructures.Tests
             Assert.AreEqual(list[7].Value, "L2");
         }
 
+        [TestMethod]
+        public void Test_ChangeForestUsingVisitor()
+        {
+            var nodeList = new[]
+            {
+                new TreeItemData { Id = 1, ParentId = null, Value = "RB1" },
+                new TreeItemData { Id = 2, ParentId = 1, Value = "RL1" },
+                new TreeItemData { Id = 3, ParentId = 1, Value = "RL2" },
+            };
+
+            var forest = BuildForestFromFlatData();
+
+            var builder = new ImmutableTreeBuilder();
+
+            var dicChildren = nodeList
+                .Where(n => n.ParentId != null)
+                .GroupBy(n => n.ParentId)
+                // ReSharper disable once PossibleInvalidOperationException
+                .ToDictionary(g => g.Key.Value, n => n.ToList());
+
+            forest.Visit(
+                (n, c) =>
+                {
+                    // replaces L1 node with another sub-tree
+                    if (n.Value == "L1")
+                        return builder.BuildBranchesOrLeaves(
+                            x => dicChildren.GetValueOrDefault(x.Id, new List<TreeItemData>()),
+                            x => x.Value,
+                            nodeList.Where(x => x.ParentId == null));
+
+                    return ((Node<string>)n).RecreateNodeIfNeeded(c);
+                });
+        }
+
         private static ImmutableForest<string> BuildForestFromFlatData()
         {
             var nodeList = new[]

@@ -4,8 +4,8 @@ namespace DataStructures.Immutable
 {
     public interface IImmutableSpecificTreeBuilder<in TData, TValue>
     {
-        IVisitableNode<TValue> BuildRoot(TData rootData);
+        INode<TValue> BuildRoot(TData rootData);
 
-        IVisitableNode<TValue> BuildBranchOrLeaf(TData nodeData);
+        INode<TValue> BuildBranchOrLeaf(TData nodeData);
     }
 }

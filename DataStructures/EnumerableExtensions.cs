@@ -13,6 +13,11 @@ namespace DataStructures
         /// <returns>An immutable collection composed of the elements of the enumerable.</returns>
         public static ImmutableCollection<T> ToImmutable<T>(this IEnumerable<T> enumerable)
         {
+            // ReSharper disable once SuspiciousTypeConversion.Global - the fact is: `ImmutableCollection<T>` implements `IImmutablePrototype<ImmutableCollection<T>>`
+            var immutableProto = enumerable as IImmutablePrototype<ImmutableCollection<T>>;
+            if (immutableProto != null)
+                return immutableProto.ToImmutable();
+
             return new ImmutableCollection<T>(enumerable);
         }
     }

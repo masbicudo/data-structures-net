@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DataStructures.SystemExtensions;
 
 namespace DataStructures.Immutable.Tree
 {
@@ -8,10 +8,10 @@ namespace DataStructures.Immutable.Tree
     /// Represents a node of an immutable tree.
     /// </summary>
     /// <typeparam name="TValue">Type of the value contained in the node.</typeparam>
-    public abstract class Node<TValue> : IVisitableNode<TValue>
+    public abstract class Node<TValue> : INode<TValue>
     {
-        private static readonly ImmutableCollection<IVisitableNode<TValue>> EmptyCollection
-            = new ImmutableCollection<IVisitableNode<TValue>>(new Node<TValue>[0]);
+        private static readonly ImmutableCollection<INode<TValue>> EmptyCollection
+            = new ImmutableCollection<INode<TValue>>(new Node<TValue>[0]);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Node{TValue}"/> class,
@@ -23,7 +23,7 @@ namespace DataStructures.Immutable.Tree
         /// <param name="value">
         /// The value.
         /// </param>
-        protected Node(ImmutableCollection<IVisitableNode<TValue>> children, TValue value)
+        protected Node(ImmutableCollection<INode<TValue>> children, TValue value)
         {
             this.Children = children == null || children.Count == 0 ? EmptyCollection : children;
             this.Value = value;
@@ -39,12 +39,12 @@ namespace DataStructures.Immutable.Tree
         /// <param name="value">
         /// The value.
         /// </param>
-        protected Node(IEnumerable<IVisitableNode<TValue>> children, TValue value)
+        protected Node(IEnumerable<INode<TValue>> children, TValue value)
         {
             var childrenArray = children.ToArray();
             this.Children = children == null || childrenArray.Length == 0
                 ? EmptyCollection
-                : new ImmutableCollection<IVisitableNode<TValue>>(childrenArray);
+                : new ImmutableCollection<INode<TValue>>(childrenArray);
 
             this.Value = value;
         }
@@ -79,12 +79,12 @@ namespace DataStructures.Immutable.Tree
         /// <summary>
         /// Gets the collection of child nodes.
         /// </summary>
-        public ImmutableCollection<IVisitableNode<TValue>> Children { get; private set; }
+        public ImmutableCollection<INode<TValue>> Children { get; private set; }
 
         /// <summary>
         /// Gets the collection of child nodes.
         /// </summary>
-        IReadOnlyCollection<INode<TValue>> INode<TValue>.Children
+        IReadOnlyList<INode<TValue>> INode<TValue>.Children
         {
             get { return this.Children; }
         }
@@ -112,12 +112,31 @@ namespace DataStructures.Immutable.Tree
             // through the `children` parameter, that is an enumerable.
             var newChildren = this.Children.SelectMany(x => x.Visit(visitor));
 
-            // replace current node value
-            // change list of child nodes (add/remove)
-            var newItem = visitor(this, newChildren);
+            // returns a list of values that correspond to the current node
+            var newItems = visitor(this, newChildren);
 
-            return newItem;
+            return newItems;
         }
+
+        public IEnumerable<INode<TValue>> RecreateNodeIfNeeded(IEnumerable<INode<TValue>> children)
+        {
+            var otherEnum = children.GetEnumerator();
+            foreach (var child in this.Children)
+            {
+                if (!otherEnum.MoveNext())
+                {
+#error Continuar com isso!
+                }
+                else
+                {
+                    
+                }
+            }
+            
+            return this.CreateNew(children.ToImmutable(), this.Value).ToUnitSet();
+        }
+
+        protected abstract INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value);
 
         public override string ToString()
         {

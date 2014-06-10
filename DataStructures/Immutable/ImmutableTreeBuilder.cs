@@ -8,7 +8,7 @@ namespace DataStructures.Immutable
     public class ImmutableTreeBuilder : IImmutableTreeBuilder
     {
 
-        public virtual IVisitableNode<TValue> BuildRoot<TData, TValue>(
+        public virtual INode<TValue> BuildRoot<TData, TValue>(
             TData rootData,
             Func<TData, IEnumerable<TData>> childGetter,
             Func<TData, TValue> valueGetter)
@@ -26,7 +26,7 @@ namespace DataStructures.Immutable
             return new RootLeaf<TValue>(value);
         }
 
-        public virtual IVisitableNode<TValue> BuildBranchOrLeaf<TData, TValue>(
+        public virtual INode<TValue> BuildBranchOrLeaf<TData, TValue>(
             TData nodeData,
             Func<TData, IEnumerable<TData>> childGetter,
             Func<TData, TValue> valueGetter)

@@ -15,7 +15,7 @@ namespace DataStructures.Immutable.Tree
         /// </summary>
         /// <param name="children"> The child nodes of the node. </param>
         /// <param name="value"> The value contained by the tree node. </param>
-        public RootBranch(ImmutableCollection<IVisitableNode<TValue>> children, TValue value)
+        public RootBranch(ImmutableCollection<INode<TValue>> children, TValue value)
             : base(children, value)
         {
         }
@@ -26,7 +26,7 @@ namespace DataStructures.Immutable.Tree
         /// </summary>
         /// <param name="children"> The child nodes of the node. </param>
         /// <param name="value"> The value contained by the tree node. </param>
-        public RootBranch(IEnumerable<IVisitableNode<TValue>> children, TValue value)
+        public RootBranch(IEnumerable<INode<TValue>> children, TValue value)
             : base(children, value)
         {
         }
@@ -45,6 +45,11 @@ namespace DataStructures.Immutable.Tree
         public override bool IsLeaf
         {
             get { return false; }
+        }
+
+        protected override INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value)
+        {
+            return new RootBranch<TValue>(children, value);
         }
     }
 }
