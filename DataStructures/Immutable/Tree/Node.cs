@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataStructures.Immutable.Tree
@@ -76,14 +77,6 @@ namespace DataStructures.Immutable.Tree
         public TValue Value { get; private set; }
 
         /// <summary>
-        /// Gets all descendant leaves, or this object itself if it is a leaf.
-        /// </summary>
-        public IEnumerable<INode<TValue>> AllLeaves
-        {
-            get { return this.Children.SelectMany(x => x.IsLeaf ? SingleItemSet(x) : x.AllLeaves); }
-        }
-
-        /// <summary>
         /// Gets the collection of child nodes.
         /// </summary>
         public ImmutableCollection<IVisitableNode<TValue>> Children { get; private set; }
@@ -97,17 +90,22 @@ namespace DataStructures.Immutable.Tree
         }
 
         /// <summary>
-        /// Applies the visitor pattern to the current tree node,
-        /// allowing the return of additional data along with the node in each visit.
+        /// Applies the visitor pattern to the current tree node.
         /// </summary>
-        /// <typeparam name="TData">Type of the additional data object.</typeparam>
-        /// <param name="visitor">Delegate the will be called when visiting a tree node.</param>
+        /// <typeparam name="TResult">Type of the resulting tree node. Any type is allowed, even non INode&lt;T&gt; objects.</typeparam>
+        /// <param name="visitor">
+        /// Delegate that will be called when visiting a tree node, to change it,
+        /// and to add the already visited children.
+        /// </param>
         /// <remarks>
         /// This is suitable for the construction of new trees based on the current tree,
         /// even if the other tree if of a different type.
         /// </remarks>
-        /// <returns>A VisitResult struct, containing the visited node (or a replacement), and the additional data produced by the visitor.</returns>
-        public IEnumerable<VisitResult<TValue, TData>> Visit<TData>(Visitor<TValue, TData> visitor)
+        /// <returns>
+        /// An object of TResult type, that corresponds to the visited node, 
+        /// that results from applying the `visitor` delegate to the current node.
+        /// </returns>
+        public IEnumerable<TResult> Visit<TResult>(Visitor<TValue, TResult> visitor)
         {
             // Creating an enumerable object, that will visit each child object, upon enumeration.
             // The responsability of enumerating these is left to the `visitor` delegate,
@@ -121,31 +119,9 @@ namespace DataStructures.Immutable.Tree
             return newItem;
         }
 
-        /// <summary>
-        /// Applies the visitor pattern to the current tree node.
-        /// </summary>
-        /// <param name="visitor">Delegate the will be called when visiting a tree node.</param>
-        /// <remarks>
-        /// This is suitable for the modification of the current tree (which will result in a new immutable tree).
-        /// </remarks>
-        /// <returns>A VisitResult struct, containing the visited node (or a replacement).</returns>
-        public IEnumerable<VisitResult<TValue>> Visit(Visitor<TValue> visitor)
+        public override string ToString()
         {
-            // Creating an enumerable object, that will visit each child object, upon enumeration.
-            // The responsability of enumerating these is left to the `visitor` delegate,
-            // through the `children` parameter, that is an enumerable.
-            var newChildren = this.Children.SelectMany(x => x.Visit(visitor));
-
-            // replace current node value
-            // change list of child nodes (add/remove)
-            var newItem = visitor(this, newChildren);
-
-            return newItem;
-        }
-
-        private static IEnumerable<T> SingleItemSet<T>(T item)
-        {
-            yield return item;
+            return string.Format("{0} {{ Value = '{2}'; Nodes = {1} }}", this.GetType().Name, this.Children.Count, this.Value);
         }
     }
 }

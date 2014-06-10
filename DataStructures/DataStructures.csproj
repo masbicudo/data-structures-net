@@ -39,11 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="IImmutable.cs" />
     <Compile Include="IImmutablePrototype.cs" />
+    <Compile Include="Immutable\IImmutableSpecificTreeBuilder.cs" />
     <Compile Include="Immutable\IImmutableTreeBuilder.cs" />
     <Compile Include="Immutable\ImmutableCollection.cs" />
+    <Compile Include="Immutable\ImmutableSpecificTreeBuilder.cs" />
+    <Compile Include="Immutable\ImmutableTreeBuilder.cs" />
+    <Compile Include="Immutable\ImmutableTreeBuilderExtensions.cs" />
     <Compile Include="Immutable\Tree\Branch.cs" />
     <Compile Include="Immutable\Tree\Node.cs" />
     <Compile Include="Immutable\ImmutableForest.cs" />

@@ -8,7 +8,7 @@ namespace DataStructures.Immutable
     /// Represents an immutable collection. This is different from a `ReadOnlyCollection`
     /// because it is impossible to refer to the inner collection.
     /// </summary>
-    /// <typeparam name="TItem"> Type of the items inside this collection. </typeparam>
+    /// <typeparam name="TItem"> Type of the items inside this collection. These may be mutable or not. </typeparam>
     public class ImmutableCollection<TItem> : ReadOnlyCollection<TItem>
     {
         /// <summary>

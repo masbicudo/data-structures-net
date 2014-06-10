@@ -5,9 +5,9 @@
         public INode<TItem> node;
     }
 
-    public struct VisitResult<TItem, TData>
+    public struct VisitResult<TValue, TData>
     {
-        public INode<TItem> node;
+        public INode<TValue> node;
         public TData data;
     }
 }

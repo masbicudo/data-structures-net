@@ -1,17 +1,19 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using DataStructures.Immutable.Tree;
+using System.Collections.Generic;
 
 namespace DataStructures.Immutable
 {
-    public class ImmutableTree<TValue>
+    public class ImmutableTree<TValue, TId>
     {
-        private IRoot rootNode;
+        private Root<TValue> root;
 
-        public ImmutableTree(IEnumerable<INode<TValue>> children)
+        public ImmutableTree(Root<TValue> root, Func<TValue, TId> idGetter)
         {
-            // TODO: Complete member initialization
-            this.children = children;
+            this.root = root;
+
+            var allNodes = root.GetAllNodesEnum().ToArray();
         }
     }
 }

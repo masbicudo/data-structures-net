@@ -29,10 +29,20 @@ namespace DataStructures.Tests
                 .GroupBy(n => n.ParentId)
                 .ToDictionary(g => g.Key.Value, n => n.ToList());
 
-            var tree = ImmutableForest<string>.Create(
-                nodeList.Where(x => x.ParentId == null),
+            var builder = new ImmutableTreeBuilder();
+            var forest = builder.BuildForest(
                 x => dicChildren.GetValueOrDefault(x.Id, new List<TreeItemData>()),
-                x => x.Value);
+                x => x.Value,
+                nodeList.Where(x => x.ParentId == null));
+
+            Assert.AreEqual(forest.Nodes[0].Value, "R1");
+            Assert.AreEqual(forest.Nodes[0].Children[0].Value, "B1");
+            Assert.AreEqual(forest.Nodes[0].Children[0].Children[0].Value, "B2");
+            Assert.AreEqual(forest.Nodes[0].Children[0].Children[0].Children[0].Value, "L2");
+            Assert.AreEqual(forest.Nodes[0].Children[0].Children[1].Value, "L1");
+            Assert.AreEqual(forest.Nodes[0].Children[0].Children[2].Value, "L4");
+            Assert.AreEqual(forest.Nodes[0].Children[1].Value, "B3");
+            Assert.AreEqual(forest.Nodes[0].Children[1].Children[0].Value, "L3");
         }
     }
 }
