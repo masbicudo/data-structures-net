@@ -6,8 +6,7 @@ namespace DataStructures.Immutable.Tree
     /// Represents a node that is both the root and a branch of the tree.
     /// </summary>
     /// <typeparam name="TValue"> Type of the value store in this node. </typeparam>
-    public class RootBranch<TValue> : Root<TValue>,
-        IRoot, IBranch
+    public class RootBranch<TValue> : Root<TValue>, IBranch
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RootBranch{TValue}"/> class,
@@ -47,9 +46,9 @@ namespace DataStructures.Immutable.Tree
             get { return false; }
         }
 
-        protected override INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value)
+        protected override INode<TNewNodeValue> CreateNew<TNewNodeValue>(ImmutableCollection<INode<TNewNodeValue>> children, TNewNodeValue value)
         {
-            return new RootBranch<TValue>(children, value);
+            return new RootBranch<TNewNodeValue>(children, value);
         }
     }
 }

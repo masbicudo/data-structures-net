@@ -43,6 +43,7 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="IImmutable.cs" />
     <Compile Include="IImmutablePrototype.cs" />
+    <Compile Include="Immutable\IMayBeImmutable.cs" />
     <Compile Include="Immutable\IReadableForest.cs" />
     <Compile Include="Immutable\IImmutableSpecificTreeBuilder.cs" />
     <Compile Include="Immutable\IImmutableTreeBuilder.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Immutable\ImmutableTreeBuilder.cs" />
     <Compile Include="Immutable\ImmutableTreeBuilderExtensions.cs" />
     <Compile Include="Immutable\Tree\Branch.cs" />
+    <Compile Include="Immutable\Tree\INodeFactory.cs" />
     <Compile Include="Immutable\Tree\INonRoot.cs" />
     <Compile Include="Immutable\Tree\Node.cs" />
     <Compile Include="Immutable\ImmutableForest.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="Immutable\Tree\RootLeaf.cs" />
     <Compile Include="Immutable\ImmutableTree.cs" />
     <Compile Include="Immutable\Tree\Visitor.cs" />
-    <Compile Include="Immutable\Tree\VisitResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemExtensions\ObjectExtensions.cs" />
   </ItemGroup>

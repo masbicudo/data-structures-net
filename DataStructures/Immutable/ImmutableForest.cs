@@ -38,7 +38,7 @@ namespace DataStructures.Immutable
             return string.Format("{0} {{ Nodes = {1} }}", this.GetType().Name, this.nodes.Count);
         }
 
-        public ImmutableForest<TValue> Visit(Visitor<TValue, INode<TValue>> visitor)
+        public IReadableForest<TResultingNodeValue> Visit<TResultingNodeValue>(Visitor<TValue, INode<TResultingNodeValue>> visitor)
         {
             var newNodes = this.nodes.SelectMany(x => x.Visit(visitor)).ToImmutable();
 
@@ -47,10 +47,10 @@ namespace DataStructures.Immutable
             var equals = this.nodes.Count == newNodes.Count && Enumerable.SequenceEqual(this.nodes, newNodes, EqualityComparer<object>.Default);
 
             // If all children are equal and in the same order, then we return the current forest as the result.
-            if (equals)
-                return this;
+            if (equals && this is IReadableForest<TResultingNodeValue>)
+                return (IReadableForest<TResultingNodeValue>)this;
 
-            return new ImmutableForest<TValue>(newNodes);
+            return new ImmutableForest<TResultingNodeValue>(newNodes);
         }
 
         IEnumerable<INode<TValue>> IReadableForest<TValue>.RootNodes
@@ -63,7 +63,7 @@ namespace DataStructures.Immutable
             get { return this.DisconnectedNodesEnum; }
         }
 
-        IEnumerable<INode<TValue>> IReadableForest<TValue>.Nodes
+        IReadOnlyList<INode<TValue>> IReadableForest<TValue>.Nodes
         {
             get { return this.Nodes; }
         }

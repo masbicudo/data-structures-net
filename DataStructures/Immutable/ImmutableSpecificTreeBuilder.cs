@@ -6,7 +6,6 @@ namespace DataStructures.Immutable
 {
     public class ImmutableSpecificTreeBuilder<TData, TValue> : IImmutableSpecificTreeBuilder<TData, TValue>
     {
-
         private readonly IImmutableTreeBuilder innerBuilder;
         private readonly Func<TData, IEnumerable<TData>> childGetter;
         private readonly Func<TData, TValue> valueGetter;
@@ -27,6 +26,5 @@ namespace DataStructures.Immutable
         {
             return this.innerBuilder.BuildBranchOrLeaf(nodeData, this.childGetter, this.valueGetter);
         }
-
     }
 }

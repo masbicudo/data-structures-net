@@ -2,6 +2,9 @@
 
 namespace DataStructures.SystemExtensions
 {
+    /// <summary>
+    /// Extensions that affect all objects.
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>

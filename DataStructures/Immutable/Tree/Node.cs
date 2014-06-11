@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DataStructures.SystemExtensions;
 
 namespace DataStructures.Immutable.Tree
 {
@@ -8,7 +7,7 @@ namespace DataStructures.Immutable.Tree
     /// Represents a node of an immutable tree.
     /// </summary>
     /// <typeparam name="TValue">Type of the value contained in the node.</typeparam>
-    public abstract class Node<TValue> : INode<TValue>
+    public abstract class Node<TValue> : INode<TValue>, ISpecificNodeFactory
     {
         private static readonly ImmutableCollection<INode<TValue>> EmptyCollection
             = new ImmutableCollection<INode<TValue>>(new Node<TValue>[0]);
@@ -41,11 +40,8 @@ namespace DataStructures.Immutable.Tree
         /// </param>
         protected Node(IEnumerable<INode<TValue>> children, TValue value)
         {
-            var childrenArray = children.ToArray();
-            this.Children = children == null || childrenArray.Length == 0
-                ? EmptyCollection
-                : new ImmutableCollection<INode<TValue>>(childrenArray);
-
+            var childrenArray = children ?? EmptyCollection;
+            this.Children = childrenArray.ToImmutable();
             this.Value = value;
         }
 
@@ -118,25 +114,19 @@ namespace DataStructures.Immutable.Tree
             return newItems;
         }
 
-        public IEnumerable<INode<TValue>> RecreateNodeIfNeeded(IEnumerable<INode<TValue>> children)
-        {
-            var otherEnum = children.GetEnumerator();
-            foreach (var child in this.Children)
-            {
-                if (!otherEnum.MoveNext())
-                {
-#error Continuar com isso!
-                }
-                else
-                {
-                    
-                }
-            }
-            
-            return this.CreateNew(children.ToImmutable(), this.Value).ToUnitSet();
-        }
+        /// <summary>
+        /// Creates a new node of the same type of the current node, but with any value type, specified by the `TNewNodeValue` type parameter.
+        /// </summary>
+        /// <typeparam name="TNewNodeValue">The value type of the new node.</typeparam>
+        /// <param name="children">Collection of children to pass to the new node. They must have the same value type as the new node.</param>
+        /// <param name="value">The value of the new node.</param>
+        /// <returns>A new node of the same type of the current node, but with different value type, containing the passed children and value.</returns>
+        protected abstract INode<TNewNodeValue> CreateNew<TNewNodeValue>(ImmutableCollection<INode<TNewNodeValue>> children, TNewNodeValue value);
 
-        protected abstract INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value);
+        INode<TNodeValue> ISpecificNodeFactory.CreateNew<TNodeValue>(IReadOnlyList<INode<TNodeValue>> children, TNodeValue value)
+        {
+            return this.CreateNew(children.ToImmutable(), value);
+        }
 
         public override string ToString()
         {

@@ -37,14 +37,20 @@ namespace DataStructures.Immutable
 
         private static TItem[] GetItems(IEnumerable<TItem> items)
         {
+            if (items == null)
+                throw new ArgumentNullException("items");
+
             Debug.Assert(!(items is IImmutablePrototype<ImmutableCollection<TItem>>), "Items collection cannot be an immutable prototype of itself.");
             return items.ToArray();
         }
 
-        private static List<TItem> GetItems(Prototype items)
+        private static List<TItem> GetItems(Prototype prototype)
         {
-            Debug.Assert(items.IsReadOnly, "Builder must be set to read-only state before creating an immutable from it.");
-            return items.inner;
+            if (prototype == null)
+                throw new ArgumentNullException("prototype");
+
+            Debug.Assert(prototype.IsReadOnly, "Builder must be set to read-only state before creating an immutable from it.");
+            return prototype.Inner;
         }
 
         public ImmutableCollection<TItem> ToImmutable()
@@ -52,15 +58,34 @@ namespace DataStructures.Immutable
             return this;
         }
 
-        public sealed class Prototype : IList<TItem>, IReadOnlyList<TItem>, IImmutablePrototype<ImmutableCollection<TItem>>, IEnumerable<TItem>, IEnumerable
+        /// <summary>
+        /// Represents a prototype of an immutable collection.
+        /// This collection is mutable until `ToImmutable` is called.
+        /// </summary>
+        public sealed class Prototype : IList<TItem>, IReadOnlyList<TItem>, IImmutablePrototype<ImmutableCollection<TItem>>, IEnumerable<TItem>, IEnumerable, IMayBeImmutable
         {
             private bool isReadOnly;
 
-            internal readonly List<TItem> inner = new List<TItem>();
+            internal readonly List<TItem> Inner;
+
+            public Prototype()
+            {
+                this.Inner = new List<TItem>();
+            }
+
+            public Prototype(IEnumerable<TItem> items)
+            {
+                this.Inner = items.ToList();
+            }
+
+            public Prototype(int capacity)
+            {
+                this.Inner = new List<TItem>(capacity);
+            }
 
             public IEnumerator<TItem> GetEnumerator()
             {
-                return this.inner.GetEnumerator();
+                return this.Inner.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -73,7 +98,15 @@ namespace DataStructures.Immutable
                 if (this.isReadOnly)
                     throw new Exception("This collection is now in read-only state.");
 
-                this.inner.Add(item);
+                this.Inner.Add(item);
+            }
+
+            public void AddRange(IEnumerable<TItem> items)
+            {
+                if (this.isReadOnly)
+                    throw new Exception("This collection is now in read-only state.");
+
+                this.Inner.AddRange(items);
             }
 
             public void Clear()
@@ -81,65 +114,92 @@ namespace DataStructures.Immutable
                 if (this.isReadOnly)
                     throw new Exception("This collection is now in read-only state.");
 
-                this.inner.Clear();
+                this.Inner.Clear();
             }
 
             public bool Contains(TItem item)
             {
-                return this.inner.Contains(item);
+                return this.Inner.Contains(item);
             }
 
             public void CopyTo(TItem[] array, int arrayIndex)
             {
                 if (this.isReadOnly)
-                    throw new Exception("This builder has already been used to build an immutable object.");
+                    throw new Exception("This collection is now in read-only state.");
 
-                this.inner.CopyTo(array, arrayIndex);
+                this.Inner.CopyTo(array, arrayIndex);
             }
 
             public bool Remove(TItem item)
             {
                 if (this.isReadOnly)
-                    throw new Exception("This builder has already been used to build an immutable object.");
+                    throw new Exception("This collection is now in read-only state.");
 
-                return this.inner.Remove(item);
+                return this.Inner.Remove(item);
             }
 
             public int Count
             {
-                get { return this.inner.Count; }
+                get { return this.Inner.Count; }
             }
 
-            public bool IsReadOnly { get { return this.isReadOnly; } }
+            public bool IsReadOnly
+            {
+                get { return this.isReadOnly; }
+            }
+
             public int IndexOf(TItem item)
             {
-                throw new System.NotImplementedException();
+                return this.Inner.IndexOf(item);
             }
 
             public void Insert(int index, TItem item)
             {
-                throw new System.NotImplementedException();
+                if (this.isReadOnly)
+                    throw new Exception("This collection is now in read-only state.");
+
+                this.Inner.Insert(index, item);
             }
 
             public void RemoveAt(int index)
             {
-                throw new System.NotImplementedException();
+                if (this.isReadOnly)
+                    throw new Exception("This collection is now in read-only state.");
+
+                this.Inner.RemoveAt(index);
             }
 
             public TItem this[int index]
             {
-                get { throw new System.NotImplementedException(); }
-                set { throw new System.NotImplementedException(); }
+                get
+                {
+                    return this.Inner[index];
+                }
+
+                set
+                {
+                    if (this.isReadOnly)
+                        throw new Exception("This collection is now in read-only state.");
+
+                    this.Inner[index] = value;
+                }
             }
 
-            public void SetReadOnlyFlag()
+            public void SetImmutableFlag()
             {
+                this.Inner.TrimExcess();
                 this.isReadOnly = true;
             }
 
             public ImmutableCollection<TItem> ToImmutable()
             {
+                this.SetImmutableFlag();
                 return new ImmutableCollection<TItem>(this);
+            }
+
+            bool IMayBeImmutable.IsImmutable
+            {
+                get { return this.isReadOnly; }
             }
         }
     }

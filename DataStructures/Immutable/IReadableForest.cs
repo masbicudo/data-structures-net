@@ -12,7 +12,7 @@ namespace DataStructures.Immutable
         /// <summary>
         /// Gets a set of nodes contained directly in this forest.
         /// </summary>
-        IEnumerable<INode<TValue>> Nodes { get; }
+        IReadOnlyList<INode<TValue>> Nodes { get; }
 
         /// <summary>
         /// Gets a set of root nodes contained directly in this forest.
@@ -23,5 +23,7 @@ namespace DataStructures.Immutable
         /// Gets a set of non-root nodes contained directly in this forest.
         /// </summary>
         IEnumerable<INode<TValue>> DisconnectedNodes { get; }
+
+        IReadableForest<TResult> Visit<TResult>(Visitor<TValue, INode<TResult>> visitor);
     }
 }

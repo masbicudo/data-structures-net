@@ -39,12 +39,12 @@ namespace DataStructures.Immutable.Tree
             get { return false; }
         }
 
-        protected override INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value)
+        protected override INode<TNewNodeValue> CreateNew<TNewNodeValue>(ImmutableCollection<INode<TNewNodeValue>> children, TNewNodeValue value)
         {
             if (children.Count > 0)
                 throw new Exception("Cannot create a leaf with children.");
 
-            return new Leaf<TValue>(value);
+            return new Leaf<TNewNodeValue>(value);
         }
     }
 }

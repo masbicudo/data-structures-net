@@ -43,9 +43,9 @@ namespace DataStructures.Immutable.Tree
             get { return true; }
         }
 
-        protected override INode<TValue> CreateNew(ImmutableCollection<INode<TValue>> children, TValue value)
+        protected override INode<TNewNodeValue> CreateNew<TNewNodeValue>(ImmutableCollection<INode<TNewNodeValue>> children, TNewNodeValue value)
         {
-            return new Branch<TValue>(children, value);
+            return new Branch<TNewNodeValue>(children, value);
         }
     }
 }

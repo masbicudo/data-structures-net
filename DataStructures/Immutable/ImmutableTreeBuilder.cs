@@ -1,13 +1,12 @@
+using DataStructures.Immutable.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DataStructures.Immutable.Tree;
 
 namespace DataStructures.Immutable
 {
     public class ImmutableTreeBuilder : IImmutableTreeBuilder
     {
-
         public virtual INode<TValue> BuildRoot<TData, TValue>(
             TData rootData,
             Func<TData, IEnumerable<TData>> childGetter,
@@ -18,10 +17,10 @@ namespace DataStructures.Immutable
 
             var value = valueGetter(rootData);
 
-            if (children.Any())
-            {
+            children = children.ToImmutable(null);
+
+            if (children != null)
                 return new RootBranch<TValue>(children, value);
-            }
 
             return new RootLeaf<TValue>(value);
         }
@@ -36,10 +35,10 @@ namespace DataStructures.Immutable
 
             var value = valueGetter(nodeData);
 
-            if (children.Any())
-            {
+            children = children.ToImmutable(null);
+
+            if (children != null)
                 return new Branch<TValue>(children, value);
-            }
 
             return new Leaf<TValue>(value);
         }
