@@ -4,6 +4,12 @@ using DataStructures.Immutable.Tree;
 
 namespace DataStructures.Immutable
 {
+    /// <summary>
+    /// Represents a tree builder that knows how to get the children and value of a node of the source tree,
+    /// and is abled to build `INode&lt;T&gt;` given one of the source tree nodes.
+    /// </summary>
+    /// <typeparam name="TData">Type of node from the source tree.</typeparam>
+    /// <typeparam name="TValue">Type of data that should be store in each tree node.</typeparam>
     public class ImmutableSpecificTreeBuilder<TData, TValue> : IImmutableSpecificTreeBuilder<TData, TValue>
     {
         private readonly IImmutableTreeBuilder innerBuilder;
