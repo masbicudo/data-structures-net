@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/masbicudo/data-structures-net/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/masbicudo/data-structures-net</projectUrl>
-    <iconUrl>https://github.com/masbicudo/data-structures-net/blob/master/tree-icon-color-32.png</iconUrl>
+    <iconUrl>https://github.com/masbicudo/data-structures-net/blob/master/treeicon32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
