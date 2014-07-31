@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Data Structures from MASBicudo")]
-[assembly: AssemblyDescription("Data structures that I use in my projects.")]
+[assembly: AssemblyDescription("MASBicudo Data Structures - Immutables, Continuous.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MASBicudo")]
 [assembly: AssemblyProduct("DataStructures")]
@@ -32,7 +31,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
 
-[assembly: AssemblyInformationalVersion("1.1.0")]
+[assembly: AssemblyInformationalVersion("1.2.0")]
