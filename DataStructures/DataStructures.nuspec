@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>masbicudo.data.structures</id>
+    <id>MASBicudo Data Structures - Immutables, Continuous</id>
     <version>$version$</version>
     <title>$title$</title>
     <authors>$author$</authors>
@@ -12,7 +12,23 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
-        Immutable tree and Continuous set.
+        **Immutable tree and Continuous set.**
+        
+        Immutable structures cannot be changed after they are created,
+        you must replace the entire thing when changes must be made.
+        Good for multi-threading, functional programming, few-writes/many-reads approaches.
+        Tree builders are available (e.g. convert flat data to tree, e.g. DB table).
+        Uses tree visitors to change tree.
+        ////
+        
+        Continuous set is a set that is not discrete. It's better explained with an example:
+        a set with all values between 1.1 (inclusive) and 2.7 (exclusive).
+        Can have multiple sequences, actually can represent a set of any type
+        for which an IComparable<T> can be implemented (Double, String, DateTime, Int32).
+        Set operations available (e.g. union, exclusion, intersection)
+        ////
+        
+        Tests can be found in GitHub project page.
     </releaseNotes>
     <copyright>Copyright MASBicudo 2014</copyright>
     <tags>data structures immutable tree continuous set masbicudo</tags>
