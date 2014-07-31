@@ -92,6 +92,10 @@
     <Compile Include="Immutable\ImmutableTree.cs" />
     <Compile Include="Immutable\Tree\Visitor.cs" />
     <Compile Include="JetBrains.Annotations\JetBrains.Annotations.cs" />
+    <Compile Include="Monads\IOption.cs" />
+    <Compile Include="Monads\None.cs" />
+    <Compile Include="Monads\OptionExtensions.cs" />
+    <Compile Include="Monads\Some.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemExtensions\ObjectExtensions.cs" />
   </ItemGroup>
