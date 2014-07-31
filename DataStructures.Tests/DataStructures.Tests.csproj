@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="TestModels\Animal.cs" />
+    <Compile Include="TestModels\DoublyLinkedTreeNode.cs" />
     <Compile Include="TestModels\Giraffe.cs" />
     <Compile Include="TestModels\Lion.cs" />
     <Compile Include="TestModels\TreeItemData.cs" />

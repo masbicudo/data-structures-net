@@ -1,6 +1,8 @@
-﻿using DataStructures.Immutable;
+﻿using System;
+using DataStructures.Immutable;
 using DataStructures.Immutable.Tree;
 using DataStructures.Tests.TestModels;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
@@ -173,6 +175,146 @@ namespace DataStructures.Tests
             Assert.IsInstanceOfType(forestOfAnimals.Nodes[0].Children[0].Children[0].Children, typeof(ImmutableCollection<INode<Giraffe>>));
         }
 
+        [TestMethod]
+        public void Test_BuildTreeFromFlatData_WithContext()
+        {
+            var nodeList = new[]
+            {
+                TreeItemData.Create(1, null, "R1"),
+                TreeItemData.Create(2, 1, "B1"),
+                TreeItemData.Create(3, 2, "B2"),
+                TreeItemData.Create(4, 1, "B3"),
+                TreeItemData.Create(5, 2, "L1"),
+                TreeItemData.Create(6, 3, "L2"),
+                TreeItemData.Create(7, 4, "L3"),
+                TreeItemData.Create(8, 2, "L4"),
+            };
+
+            var builder = new ImmutableTreeBuilderWithContext();
+            var forest1 = builder.BuildForest<TreeItemData<string>, DoublyLinkedTreeNode<string>>(
+                x => nodeList.Where(y => y.ParentId == x.Id),
+                ctx => new DoublyLinkedTreeNode<string>(ctx.Data.Value, ctx.GetParentOrDefault()),
+                nodeList.Where(x => x.ParentId == null),
+                ctx => { ctx.Value.Children = ctx.GetChildren().MatchNullWithEmpty().ToArray(); });
+
+            var forest2 = builder.BuildForest<TreeItemData<string>, DoublyLinkedTreeNode<string>>(
+                x => nodeList.Where(y => y.ParentId == x.Id),
+                ctx => new DoublyLinkedTreeNode<string>(ctx.Data.Value, ctx.GetChildren().MatchNullWithEmpty().ToArray()),
+                nodeList.Where(x => x.ParentId == null),
+                ctx => ctx.Value.Parent = ctx.GetParentOrDefault());
+
+            var all1 = forest1.RootsEnum.SelectMany(x => x.GetAllNodesEnum().Select(x2 => x2.Value.Value)).ToArray();
+            var all2 = forest2.RootsEnum.SelectMany(x => x.GetAllNodesEnum().Select(x2 => x2.Value.Value)).ToArray();
+
+            Assert.IsTrue(all1.SequenceEqual(all2), "Sequences must be equal");
+
+            Assert.AreEqual(forest1.Nodes[0].Value.Value, "R1");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Value, "B1");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[0].Value, "B2");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[0].Children[0].Value, "L2");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[1].Value, "L1");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[2].Value, "L4");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[1].Value, "B3");
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[1].Children[0].Value, "L3");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Value, "B1");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[0].Value, "B2");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[0].Children[0].Value, "L2");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[1].Value, "L1");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[2].Value, "L4");
+            Assert.AreEqual(forest1.Nodes[0].Children[1].Value.Value, "B3");
+            Assert.AreEqual(forest1.Nodes[0].Children[1].Value.Children[0].Value, "L3");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[0].Value.Value, "B2");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[0].Value.Children[0].Value, "L2");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[1].Value.Value, "L1");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[2].Value.Value, "L4");
+            Assert.AreEqual(forest1.Nodes[0].Children[1].Children[0].Value.Value, "L3");
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[0].Children[0].Value.Value, "L2");
+
+            Assert.AreEqual(forest1.Nodes[0].Value.Children.Length, 2);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children.Length, 3);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[0].Children.Length, 1);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[0].Children[0].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[1].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[0].Children[2].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[1].Children.Length, 1);
+            Assert.AreEqual(forest1.Nodes[0].Value.Children[1].Children[0].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children.Length, 3);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[0].Children.Length, 1);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[0].Children[0].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[1].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Value.Children[2].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[1].Value.Children.Length, 1);
+            Assert.AreEqual(forest1.Nodes[0].Children[1].Value.Children[0].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[0].Value.Children.Length, 1);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[0].Value.Children[0].Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[1].Value.Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[2].Value.Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[1].Children[0].Value.Children.Length, 0);
+            Assert.AreEqual(forest1.Nodes[0].Children[0].Children[0].Children[0].Value.Children.Length, 0);
+
+            Assert.IsInstanceOfType(forest1.Nodes[0], typeof(IRoot));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[0], typeof(IBranch));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[0].Children[0], typeof(IBranch));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[0].Children[0].Children[0], typeof(ILeaf));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[0].Children[1], typeof(ILeaf));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[0].Children[2], typeof(ILeaf));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[1], typeof(IBranch));
+            Assert.IsInstanceOfType(forest1.Nodes[0].Children[1].Children[0], typeof(ILeaf));
+
+            Assert.AreEqual(forest2.Nodes[0].Value.Value, "R1");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Value, "B1");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[0].Value, "B2");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[0].Children[0].Value, "L2");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[1].Value, "L1");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[2].Value, "L4");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[1].Value, "B3");
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[1].Children[0].Value, "L3");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Value, "B1");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[0].Value, "B2");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[0].Children[0].Value, "L2");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[1].Value, "L1");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[2].Value, "L4");
+            Assert.AreEqual(forest2.Nodes[0].Children[1].Value.Value, "B3");
+            Assert.AreEqual(forest2.Nodes[0].Children[1].Value.Children[0].Value, "L3");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[0].Value.Value, "B2");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[0].Value.Children[0].Value, "L2");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[1].Value.Value, "L1");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[2].Value.Value, "L4");
+            Assert.AreEqual(forest2.Nodes[0].Children[1].Children[0].Value.Value, "L3");
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[0].Children[0].Value.Value, "L2");
+
+            Assert.AreEqual(forest2.Nodes[0].Value.Children.Length, 2);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children.Length, 3);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[0].Children.Length, 1);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[0].Children[0].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[1].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[0].Children[2].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[1].Children.Length, 1);
+            Assert.AreEqual(forest2.Nodes[0].Value.Children[1].Children[0].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children.Length, 3);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[0].Children.Length, 1);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[0].Children[0].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[1].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Value.Children[2].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[1].Value.Children.Length, 1);
+            Assert.AreEqual(forest2.Nodes[0].Children[1].Value.Children[0].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[0].Value.Children.Length, 1);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[0].Value.Children[0].Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[1].Value.Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[2].Value.Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[1].Children[0].Value.Children.Length, 0);
+            Assert.AreEqual(forest2.Nodes[0].Children[0].Children[0].Children[0].Value.Children.Length, 0);
+
+            Assert.IsInstanceOfType(forest2.Nodes[0], typeof(IRoot));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[0], typeof(IBranch));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[0].Children[0], typeof(IBranch));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[0].Children[0].Children[0], typeof(ILeaf));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[0].Children[1], typeof(ILeaf));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[0].Children[2], typeof(ILeaf));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[1], typeof(IBranch));
+            Assert.IsInstanceOfType(forest2.Nodes[0].Children[1].Children[0], typeof(ILeaf));
+        }
+
         private static ImmutableForest<string> BuildForestFromFlatData()
         {
             var nodeList = new[]
@@ -225,6 +367,28 @@ namespace DataStructures.Tests
                 nodeList.Where(x => x.ParentId == null));
 
             return forest;
+        }
+    }
+
+    public static class EnumerableExtensions
+    {
+        public static T MatchNull<T>(this T value, Func<T> whenNull)
+        {
+            if (whenNull == null)
+                throw new ArgumentNullException("whenNull");
+
+            if (value == null)
+                return whenNull();
+
+            return value;
+        }
+
+        public static IEnumerable<T> MatchNullWithEmpty<T>(this IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+                return Enumerable.Empty<T>();
+
+            return enumerable;
         }
     }
 }
