@@ -81,6 +81,7 @@
     <Compile Include="Immutable\Tree\RootLeaf.cs" />
     <Compile Include="Immutable\ImmutableTree.cs" />
     <Compile Include="Immutable\Tree\Visitor.cs" />
+    <Compile Include="JetBrains.Annotations\JetBrains.Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemExtensions\ObjectExtensions.cs" />
   </ItemGroup>
