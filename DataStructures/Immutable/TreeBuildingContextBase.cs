@@ -1,3 +1,4 @@
+using DataStructures.Monads;
 using JetBrains.Annotations;
 using System.Collections.Generic;
 
@@ -28,7 +29,7 @@ namespace DataStructures.Immutable
         /// <summary>
         /// Gets the value that will be used to build the parent of the node being built in the current context.
         /// </summary>
-        public abstract TNodeValue ParentNodeValue { get; }
+        public abstract IOption<TNodeValue> ParentNodeValue { get; }
 
         /// <summary>
         /// Gets the values that were used to build the children of the node being built in the current context.

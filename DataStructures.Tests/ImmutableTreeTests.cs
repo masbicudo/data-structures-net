@@ -1,6 +1,7 @@
 ﻿using System;
 using DataStructures.Immutable;
 using DataStructures.Immutable.Tree;
+using DataStructures.Monads;
 using DataStructures.Tests.TestModels;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -195,7 +196,7 @@ namespace DataStructures.Tests
                 x => nodeList.Where(y => y.ParentId == x.Id),
                 ctx => new DoublyLinkedTreeNode<string>(
                     ctx.SourceData.Value,
-                    ctx.ParentNodeValue),
+                    ctx.ParentNodeValue.GetSomeOrDefault()),
                 nodeList.Where(x => x.ParentId == null),
                 ctx => { ctx.NodeValue.Children = ctx.ChildNodesValues.MatchNullWithEmpty().ToArray(); });
 
@@ -205,7 +206,7 @@ namespace DataStructures.Tests
                     ctx.SourceData.Value,
                     ctx.ChildNodesValues.MatchNullWithEmpty().ToArray()),
                 nodeList.Where(x => x.ParentId == null),
-                ctx => ctx.NodeValue.Parent = ctx.ParentNodeValue);
+                ctx => ctx.NodeValue.Parent = ctx.ParentNodeValue.GetSomeOrDefault());
 
             var all1 = forest1.RootsEnum.SelectMany(x => x.GetAllNodesEnum().Select(x2 => x2.Value.Value)).ToArray();
             var all2 = forest2.RootsEnum.SelectMany(x => x.GetAllNodesEnum().Select(x2 => x2.Value.Value)).ToArray();

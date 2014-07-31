@@ -1,3 +1,4 @@
+using DataStructures.Monads;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
@@ -125,14 +126,14 @@ namespace DataStructures.Immutable
         /// <summary>
         /// Gets the value that will be used to build the parent of the node being built in the current context.
         /// </summary>
-        public override TNodeValue ParentNodeValue
+        public override IOption<TNodeValue> ParentNodeValue
         {
             get
             {
                 if (this.parentContext == null)
-                    throw new Exception("This is the root context, there is no parent value.");
+                    return None<TNodeValue>.Instance;
 
-                return this.parentContext.NodeValue;
+                return new Some<TNodeValue>(this.parentContext.NodeValue);
             }
         }
 
