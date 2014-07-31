@@ -4,99 +4,158 @@ using System.Collections.Generic;
 
 namespace DataStructures.Immutable
 {
-    public class TreeBuildingContext<TData, TValue>
+    /// <summary>
+    /// Represents the context of building an immutable tree.
+    /// </summary>
+    /// <typeparam name="TSourceData"> Type of the data used to get a value for each node in the tree. </typeparam>
+    /// <typeparam name="TNodeValue"> Type of the value of nodes in the tree. </typeparam>
+    public class TreeBuildingContext<TSourceData, TNodeValue> :
+        TreeBuildingContextBase<TSourceData, TNodeValue>
     {
-        private readonly Func<TreeBuildingContext<TData, TValue>, IEnumerable<TValue>> contextChildrenGetter;
-        private readonly TreeBuildingContext<TData, TValue> parentContext;
-        private readonly TreeBuildingContext<TData, TValue> rootContext;
-        private readonly TData data;
+        [NotNull]
+        private readonly Func<TreeBuildingContext<TSourceData, TNodeValue>, IEnumerable<TNodeValue>> contextChildrenGetter;
 
-        private TValue value;
-        private bool hasValue;
+        private readonly TreeBuildingContext<TSourceData, TNodeValue> parentContext;
+
+        [NotNull]
+        private readonly TreeBuildingContext<TSourceData, TNodeValue> rootContext;
+
+        private TNodeValue nodeValue;
+        private bool hasNodeValue;
         private Action postProcessor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeBuildingContext{TSourceData, TNodeValue}"/> class,
+        /// that is a sub-context of a tree building process.
+        /// </summary>
+        /// <param name="parentContext"> The parent context of this context. </param>
+        /// <param name="sourceData"> Source data that is used to create the value of the current node. </param>
+        /// <param name="contextChildrenGetter">
+        /// A delegate that can get the values of child nodes of the node represented by this context.
+        /// </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="contextChildrenGetter"/> and <paramref name="contextChildrenGetter"/> cannot be null. </exception>
         public TreeBuildingContext(
-            [NotNull] TreeBuildingContext<TData, TValue> parentContext,
-            TData data,
-            Func<TreeBuildingContext<TData, TValue>, IEnumerable<TValue>> contextChildrenGetter)
+            [NotNull] TreeBuildingContext<TSourceData, TNodeValue> parentContext,
+            TSourceData sourceData,
+            [NotNull] Func<TreeBuildingContext<TSourceData, TNodeValue>, IEnumerable<TNodeValue>> contextChildrenGetter)
+            : base(sourceData)
         {
             if (parentContext == null)
                 throw new ArgumentNullException("parentContext");
+            if (contextChildrenGetter == null)
+                throw new ArgumentNullException("contextChildrenGetter");
 
             this.rootContext = parentContext.rootContext;
-            this.data = data;
             this.contextChildrenGetter = contextChildrenGetter;
             this.parentContext = parentContext;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeBuildingContext{TSourceData, TNodeValue}"/> class,
+        /// that is the root context of a tree building process.
+        /// </summary>
+        /// <param name="sourceData"> Source data that is used to create the value of the current node. </param>
+        /// <param name="contextChildrenGetter">
+        /// A delegate that can get the values of child nodes of the node represented by this context.
+        /// </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="contextChildrenGetter"/> cannot be null. </exception>
         public TreeBuildingContext(
-            TData data,
-            Func<TreeBuildingContext<TData, TValue>, IEnumerable<TValue>> contextChildrenGetter)
+            TSourceData sourceData,
+            [NotNull] Func<TreeBuildingContext<TSourceData, TNodeValue>, IEnumerable<TNodeValue>> contextChildrenGetter)
+            : base(sourceData)
         {
+            if (contextChildrenGetter == null)
+                throw new ArgumentNullException("contextChildrenGetter");
+
             this.rootContext = this;
             this.parentContext = null;
-            this.data = data;
             this.contextChildrenGetter = contextChildrenGetter;
         }
 
-        public TreeBuildingContext<TData, TValue> ParentContext
+        /// <summary>
+        /// Gets the parent context. If this is the root context then the return is null.
+        /// </summary>
+        [CanBeNull]
+        public TreeBuildingContext<TSourceData, TNodeValue> ParentContext
         {
             get { return this.parentContext; }
         }
 
-        public TreeBuildingContext<TData, TValue> RootContext
+        /// <summary>
+        /// Gets the context that is the root of the current tree building operation.
+        /// </summary>
+        [NotNull]
+        public TreeBuildingContext<TSourceData, TNodeValue> RootContext
         {
             get { return this.rootContext; }
         }
 
-        public TData Data
+        /// <summary>
+        /// Gets a value indicating whether a node value has been defined.
+        /// A value is required to build the final node, so this is eventually going to be true.
+        /// </summary>
+        public bool HasNodeValue
         {
-            get { return this.data; }
+            get { return this.hasNodeValue; }
         }
 
-        public bool HasValue
-        {
-            get { return this.hasValue; }
-        }
-
-        public TValue Value
+        /// <summary>
+        /// Gets or sets the value of the node being built in this context.
+        /// </summary>
+        public TNodeValue NodeValue
         {
             get
             {
-                if (!this.hasValue)
-                    throw new Exception("Value is not yet defined");
+                if (!this.hasNodeValue)
+                    throw new Exception("NodeValue is not yet defined");
 
-                return this.value;
+                return this.nodeValue;
             }
 
             set
             {
-                if (this.hasValue)
-                    throw new Exception("Cannot set Value more than once");
+                if (this.hasNodeValue)
+                    throw new Exception("Cannot set NodeValue more than once");
 
-                this.hasValue = true;
-                this.value = value;
+                this.hasNodeValue = true;
+                this.nodeValue = value;
             }
         }
 
-        public TValue GetParentOrDefault(Func<TValue> defaultParent = null)
+        /// <summary>
+        /// Gets the value that will be used to build the parent of the node being built in the current context.
+        /// </summary>
+        public override TNodeValue ParentNodeValue
         {
-            return this.parentContext != null ? this.parentContext.Value
-                : defaultParent != null ? defaultParent()
-                : default(TValue);
+            get
+            {
+                if (this.parentContext == null)
+                    throw new Exception("This is the root context, there is no parent value.");
+
+                return this.parentContext.NodeValue;
+            }
         }
 
-        [CanBeNull]
-        public IEnumerable<TValue> GetChildren()
+        /// <summary>
+        /// Gets the values that were used to build the children of the node being built in the current context.
+        /// </summary>
+        public override IEnumerable<TNodeValue> ChildNodesValues
         {
-            return this.contextChildrenGetter(this);
+            get { return this.contextChildrenGetter(this); }
         }
 
-        public void RegisterPostProcessing(Action postProcessor)
+        /// <summary>
+        /// Register a post processing method, that will run after all the tree is ready.
+        /// </summary>
+        /// <param name="action">Action that is going to be executed.</param>
+        public void RegisterPostProcessing(Action action)
         {
-            this.postProcessor += postProcessor;
+            this.postProcessor += action;
         }
 
+        /// <summary>
+        /// Executes all the registered post processing actions.
+        /// </summary>
         public void ExecutePostProcessing()
         {
             if (this.postProcessor != null)

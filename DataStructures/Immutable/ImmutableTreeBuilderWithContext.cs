@@ -5,22 +5,6 @@ using System.Linq;
 
 namespace DataStructures.Immutable
 {
-    internal static class FuncCached
-    {
-        public static Func<TIn, TOut> Create<TIn, TOut>(Func<TIn, TOut> func)
-        {
-            var cache = new Dictionary<TIn, TOut>();
-            return x =>
-            {
-                TOut result;
-                if (!cache.TryGetValue(x, out result))
-                    cache[x] = result = func(x);
-
-                return result;
-            };
-        }
-    }
-
     public class ImmutableTreeBuilderWithContext : IImmutableTreeBuilderWithContext
     {
         public virtual INode<TValue> BuildRoot<TData, TValue>(
@@ -44,7 +28,7 @@ namespace DataStructures.Immutable
                     return childValues == null ? null : childValues.Select(n => n.Value);
                 });
 
-            context.Value = valueGetter(context);
+            context.NodeValue = valueGetter(context);
 
             if (postProcessing != null)
                 context.RootContext.RegisterPostProcessing(() => postProcessing(context));
@@ -55,9 +39,9 @@ namespace DataStructures.Immutable
                 context.ExecutePostProcessing();
 
             if (children != null)
-                return new RootBranch<TValue>(children, context.Value);
+                return new RootBranch<TValue>(children, context.NodeValue);
 
-            return new RootLeaf<TValue>(context.Value);
+            return new RootLeaf<TValue>(context.NodeValue);
         }
 
         public virtual INode<TValue> BuildBranchOrLeaf<TData, TValue>(
@@ -83,7 +67,7 @@ namespace DataStructures.Immutable
                     return childValues == null ? null : childValues.Select(n => n.Value);
                 });
 
-            context.Value = valueGetter(context);
+            context.NodeValue = valueGetter(context);
 
             if (postProcessing != null)
                 context.RootContext.RegisterPostProcessing(() => postProcessing(context));
@@ -94,9 +78,9 @@ namespace DataStructures.Immutable
                 context.ExecutePostProcessing();
 
             if (children != null)
-                return new Branch<TValue>(children, context.Value);
+                return new Branch<TValue>(children, context.NodeValue);
 
-            return new Leaf<TValue>(context.Value);
+            return new Leaf<TValue>(context.NodeValue);
         }
     }
 }

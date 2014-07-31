@@ -57,6 +57,7 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="IImmutable.cs" />
     <Compile Include="IImmutablePrototype.cs" />
+    <Compile Include="Immutable\FuncCached.cs" />
     <Compile Include="Immutable\IImmutableSpecificTreeBuilderWithContext.cs" />
     <Compile Include="Immutable\IImmutableTreeBuilderWithContext.cs" />
     <Compile Include="Immutable\IMayBeImmutable.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Immutable\ImmutableSpecificTreeBuilder.cs" />
     <Compile Include="Immutable\ImmutableTreeBuilder.cs" />
     <Compile Include="Immutable\ImmutableTreeBuilderExtensions.cs" />
+    <Compile Include="Immutable\TreeBuildingContextBase.cs" />
     <Compile Include="Immutable\TreeBuildingContext.cs" />
     <Compile Include="Immutable\Tree\Branch.cs" />
     <Compile Include="Immutable\Tree\INodeFactory.cs" />

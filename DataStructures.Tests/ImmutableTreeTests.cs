@@ -193,15 +193,19 @@ namespace DataStructures.Tests
             var builder = new ImmutableTreeBuilderWithContext();
             var forest1 = builder.BuildForest<TreeItemData<string>, DoublyLinkedTreeNode<string>>(
                 x => nodeList.Where(y => y.ParentId == x.Id),
-                ctx => new DoublyLinkedTreeNode<string>(ctx.Data.Value, ctx.GetParentOrDefault()),
+                ctx => new DoublyLinkedTreeNode<string>(
+                    ctx.SourceData.Value,
+                    ctx.ParentNodeValue),
                 nodeList.Where(x => x.ParentId == null),
-                ctx => { ctx.Value.Children = ctx.GetChildren().MatchNullWithEmpty().ToArray(); });
+                ctx => { ctx.NodeValue.Children = ctx.ChildNodesValues.MatchNullWithEmpty().ToArray(); });
 
             var forest2 = builder.BuildForest<TreeItemData<string>, DoublyLinkedTreeNode<string>>(
                 x => nodeList.Where(y => y.ParentId == x.Id),
-                ctx => new DoublyLinkedTreeNode<string>(ctx.Data.Value, ctx.GetChildren().MatchNullWithEmpty().ToArray()),
+                ctx => new DoublyLinkedTreeNode<string>(
+                    ctx.SourceData.Value,
+                    ctx.ChildNodesValues.MatchNullWithEmpty().ToArray()),
                 nodeList.Where(x => x.ParentId == null),
-                ctx => ctx.Value.Parent = ctx.GetParentOrDefault());
+                ctx => ctx.NodeValue.Parent = ctx.ParentNodeValue);
 
             var all1 = forest1.RootsEnum.SelectMany(x => x.GetAllNodesEnum().Select(x2 => x2.Value.Value)).ToArray();
             var all2 = forest2.RootsEnum.SelectMany(x => x.GetAllNodesEnum().Select(x2 => x2.Value.Value)).ToArray();

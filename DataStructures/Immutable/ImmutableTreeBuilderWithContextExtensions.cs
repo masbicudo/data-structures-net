@@ -45,7 +45,7 @@ namespace DataStructures.Immutable
         public static ImmutableForest<TValue> BuildForest<TData, TValue>(
             this IImmutableTreeBuilderWithContext treeBuilder,
             Func<TData, IEnumerable<TData>> childGetter,
-            Func<TreeBuildingContext<TData, TValue>, TValue> valueGetter,
+            Func<TreeBuildingContextBase<TData, TValue>, TValue> valueGetter,
             IEnumerable<TData> rootsData,
             Action<TreeBuildingContext<TData, TValue>> postProcessing = null)
         {
