@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DataStructures")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Data Structures from MASBicudo")]
+[assembly: AssemblyDescription("Data structures that I use in my projects.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hewlett-Packard")]
+[assembly: AssemblyCompany("MASBicudo")]
 [assembly: AssemblyProduct("DataStructures")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2014")]
+[assembly: AssemblyCopyright("Copyright © MASBicudo 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>masbicudo.data.structures</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/masbicudo/data-structures-net/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/masbicudo/data-structures-net</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/masbicudo/data-structures-net/master/treeicon32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>
+        Immutable tree and Continuous set.
+    </releaseNotes>
+    <copyright>Copyright MASBicudo 2014</copyright>
+    <tags>data structures immutable tree continuous set masbicudo</tags>
+  </metadata>
+</package>
