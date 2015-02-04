@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures.csproj", "{E8757858-B17B-43D4-AA13-412E552386DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.net45", "DataStructures\DataStructures.net45.csproj", "{E8757858-B17B-43D4-AA13-412E552386DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Tests", "DataStructures.Tests\DataStructures.Tests.csproj", "{47435869-E718-4334-894A-91DAB677B1F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.net45.Tests", "DataStructures.Tests\DataStructures.net45.Tests.csproj", "{47435869-E718-4334-894A-91DAB677B1F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F4FAAFAC-5AA6-464A-84D6-EDC77E82BB77}"
 	ProjectSection(SolutionItems) = preProject

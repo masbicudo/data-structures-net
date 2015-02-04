@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DataStructures.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("MASBicudo")]
 [assembly: AssemblyProduct("DataStructures.Tests")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCopyright("Copyright © MASBicudo 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
