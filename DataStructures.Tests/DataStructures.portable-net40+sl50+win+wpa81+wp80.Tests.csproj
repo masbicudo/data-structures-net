@@ -21,16 +21,16 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug.portable-net40+sl50\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;portable;net40;sl50</DefineConstants>
+    <OutputPath>bin\Debug.portable-net40+sl50+win+wpa81+wp80\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;portable;net40;sl50;win;wpa81;wp80</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release.portable-net40+sl50\</OutputPath>
-    <DefineConstants>TRACE;portable;net40;sl50</DefineConstants>
+    <OutputPath>bin\Release.portable-net40+sl50+win+wpa81+wp80\</OutputPath>
+    <DefineConstants>TRACE;portable;net40;sl50;win;wpa81;wp80</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -59,9 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataStructures\DataStructures.portable-net40+sl50.csproj">
+    <ProjectReference Include="..\DataStructures\DataStructures.portable-net40+sl50+win+wpa81+wp80.csproj">
       <Project>{91267B99-6984-46A3-A93A-28C70489BC75}</Project>
-      <Name>DataStructures.portable-net40+sl50</Name>
+      <Name>DataStructures.portable-net40+sl50+win+wpa81+wp80</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

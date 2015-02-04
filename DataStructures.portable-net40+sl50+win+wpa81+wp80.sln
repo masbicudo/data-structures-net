@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.portable-net40+sl50", "DataStructures\DataStructures.portable-net40+sl50.csproj", "{91267B99-6984-46A3-A93A-28C70489BC75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.portable-net40+sl50+win+wpa81+wp80", "DataStructures\DataStructures.portable-net40+sl50+win+wpa81+wp80.csproj", "{91267B99-6984-46A3-A93A-28C70489BC75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.portable-net40+sl50.Tests", "DataStructures.Tests\DataStructures.portable-net40+sl50.Tests.csproj", "{1FDF564E-15A1-42EE-9624-F4F1B7A88594}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.portable-net40+sl50+win+wpa81+wp80.Tests", "DataStructures.Tests\DataStructures.portable-net40+sl50+win+wpa81+wp80.Tests.csproj", "{1FDF564E-15A1-42EE-9624-F4F1B7A88594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

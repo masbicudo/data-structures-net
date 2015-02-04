@@ -39,6 +39,6 @@ using System.Runtime.InteropServices;
 //
 // note: ONLY THE MAIN VERSION NUMBER MAY BE CHANGED AND MUST BE THE SAME AS THE NUGET MAIN VERSION
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.2.1.0")] // This line can be the same as the informational
+[assembly: AssemblyFileVersion("1.2.2.0")] // This line can be the same as the informational
 
-[assembly: AssemblyInformationalVersion("1.2.1")] // NuGet version
+[assembly: AssemblyInformationalVersion("1.2.2")] // NuGet version

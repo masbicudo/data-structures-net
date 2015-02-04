@@ -11,7 +11,7 @@
     <RootNamespace>DataStructures</RootNamespace>
     <AssemblyName>DataStructures</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile14</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -19,19 +19,19 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug.portable-net40+sl50\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;portable;net40;sl50</DefineConstants>
+    <OutputPath>bin\Debug.portable-net40+sl50+win+wpa81+wp80\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;portable;net40;sl50;win;wpa81;wp80</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release.portable-net40+sl50\</OutputPath>
-    <DefineConstants>TRACE;portable;net40;sl50</DefineConstants>
+    <OutputPath>bin\Release.portable-net40+sl50+win+wpa81+wp80\</OutputPath>
+    <DefineConstants>TRACE;portable;net40;sl50;win;wpa81;wp80</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release.portable-net40+sl50\DataStructures.xml</DocumentationFile>
+    <DocumentationFile>bin\Release.portable-net40+sl50+win+wpa81+wp80\DataStructures.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
