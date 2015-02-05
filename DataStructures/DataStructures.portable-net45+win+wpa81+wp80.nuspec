@@ -34,11 +34,18 @@
     <tags>data structures immutable tree continuous set masbicudo</tags>
   </metadata>
   <files>
+
     <file src="bin\Release.portable-net45+win+wpa81+wp80\DataStructures.dll" target="lib\portable-net45+win+wpa81+wp80" />
+    <file src="bin\Release.portable-net45+win+wpa81+wp80\DataStructures.pdb" target="lib\portable-net45+win+wpa81+wp80" />
     <file src="bin\Release.portable-net45+win+wpa81+wp80\DataStructures.XML" target="lib\portable-net45+win+wpa81+wp80" />
+
     <file src="bin\Release.portable-net40+sl50+win+wpa81+wp80\DataStructures.dll" target="lib\portable-net40+sl50+win+wpa81+wp80" />
+    <file src="bin\Release.portable-net40+sl50+win+wpa81+wp80\DataStructures.pdb" target="lib\portable-net40+sl50+win+wpa81+wp80" />
     <file src="bin\Release.portable-net40+sl50+win+wpa81+wp80\DataStructures.XML" target="lib\portable-net40+sl50+win+wpa81+wp80" />
+
     <file src="bin\Release.net45\DataStructures.dll" target="lib\net45" />
+    <file src="bin\Release.net45\DataStructures.pdb" target="lib\net45" />
     <file src="bin\Release.net45\DataStructures.XML" target="lib\net45" />
+
   </files>
 </package>

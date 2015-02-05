@@ -11,5 +11,5 @@ for %%f in (..\*.sln) do (
             msbuild.exe "..\%%~nf.sln" /t:rebuild /p:Configuration=Release /p:Platform="Any CPU" /verbosity:quiet
     )
 
-nuget pack DataStructures.portable-net45+win+wpa81+wp80.csproj -Prop Configuration=Release -Prop Platform=AnyCPU
 nuget pack DataStructures.portable-net45+win+wpa81+wp80.csproj -Prop Configuration=Release -Prop Platform=AnyCPU -Symbols
+nuget pack DataStructures.portable-net45+win+wpa81+wp80.csproj -Prop Configuration=Release -Prop Platform=AnyCPU -Exclude ***.pdb
