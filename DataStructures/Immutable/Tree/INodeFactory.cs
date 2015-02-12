@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-#if net40
-using DataStructures.net40;
-#endif
 
 namespace DataStructures.Immutable.Tree
 {

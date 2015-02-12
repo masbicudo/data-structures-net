@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataStructures.Immutable.Tree;
-#if net40
-using DataStructures.net40;
-#endif
 
 namespace DataStructures.Immutable
 {

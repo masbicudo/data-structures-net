@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-#if net40
-using DataStructures.net40;
-#endif
 
 namespace DataStructures.Immutable
 {
@@ -17,9 +14,7 @@ namespace DataStructures.Immutable
     /// </summary>
     /// <typeparam name="TItem"> Type of the items inside this collection. These may be mutable or not. </typeparam>
     public sealed class ImmutableCollection<TItem> : ReadOnlyCollection<TItem>,
-#if net40
         IReadOnlyList<TItem>,
-#endif
         IImmutablePrototype<ImmutableCollection<TItem>>,
         IImmutable,
         IEnumerable<TItem>,

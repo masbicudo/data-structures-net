@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-#if net40
-using DataStructures.net40;
-#endif
 
 namespace DataStructures.Immutable.Tree
 {
